@@ -1,8 +1,14 @@
-import sys
+import sys, os
 
 def my_find(dir, suffix):
-    print (dir)
-    print (suffix)
+    ls =  os.listdir(dir)
+    for i in ls:
+        item = os.path.join(dir, i)
+        if os.path.isfile(item):
+            if item.find(suffix) == len(item) - len(suffix):
+                print (item)
+        else:
+            my_find(item, suffix)
 
 
 if len(sys.argv) >= 3:
