@@ -12,10 +12,3 @@ def pingpong(x):
         return 1
     else:
         return pingpong(x - 1) + get_direction(x - 1)
-
-
-print (pingpong(9))
-i = 1
-while i <= 35:
-    print(str(i) + " : " + str(pingpong(i)))
-    i += 1
