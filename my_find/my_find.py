@@ -1,13 +1,14 @@
 import sys, os
 
+
 def my_find(dir, suffix):
     path = os.path.abspath(dir)
-    ls =  os.listdir(path)
+    ls = os.listdir(path)
     for i in ls:
         item = os.path.join(path, i)
         if os.path.isfile(item):
             if item.find(suffix) == len(item) - len(suffix):
-                print (item)
+                print(item)
         else:
             my_find(item, suffix)
 
@@ -15,4 +16,4 @@ def my_find(dir, suffix):
 if len(sys.argv) >= 3:
     my_find(sys.argv[1], sys.argv[2])
 else:
-    print ("usage: python my_find.py directory extension")
+    print("usage: python my_find.py directory extension")
