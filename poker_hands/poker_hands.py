@@ -43,6 +43,30 @@ class PokerHand():
     def straight_flush(self):
         return
 
+    def of_kind(self):
+        for x in self.sort_card(self.card[0]):
+            if self.card[0].count(x) == 4:
+                self.highest = x
+                self.grade = FOUR_OF_KIND
+                return
+            elif self.card[0].count(x) == 3:
+                self.highest = x
+                for y in self.sort_card(self.card[0]):
+                    if y != x and self.card[0].count(y) == 2:
+                        self.grade = FULL_HOUSE
+                self.grade = THREE_OF_KIND
+                return
+            elif self.card[0].count(x) == 2:
+                self.highest = x
+                for y in self.sort_card(self.card[0]):
+                    if y != x and self.card[0].count(y) == 3:
+                        self.grade = FULL_HOUSE
+                        return
+                for y in self.sort_card(self.card[0]):
+                    if y != x and self.card[0].count(y) == 2:
+                        self.grade = TWO_PAIRS
+                        return
+                    self.grade = ONE_PAIRS
 
 
 
