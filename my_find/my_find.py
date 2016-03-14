@@ -1,8 +1,9 @@
-import sys, os
+import sys
+import os
 
 
-def my_find(dir, suffix):
-    path = os.path.abspath(dir)
+def my_find(directory, suffix):
+    path = os.path.abspath(directory)
     ls = os.listdir(path)
     for i in ls:
         item = os.path.join(path, i)
