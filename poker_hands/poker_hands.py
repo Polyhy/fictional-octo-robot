@@ -2,6 +2,9 @@ import re
 
 orders = ["A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2"]
 suits = ["S", "D", "H", "C"]
+grade = ['High Card', 'Pair', 'Two Pair', 'Three of a Kind', 'Straight',
+         'Flush', 'Full House', 'Four of a Kind', 'Straight Flush',
+         'Royal Flush']
 
 ROYAL_FLUSH = 9
 STRAIGHT_FLUSH = 8
@@ -110,12 +113,34 @@ class PokerHand():
 
 player1 = PokerHand()
 player2 = PokerHand()
+player1_score = 0
+player2_score = 0
 try:
     with open("poker_data.txt", "r") as poker_file:
         poker_datas = poker_file.read().split("\n")
         for poker_data in poker_datas:
             player1.set_card(poker_data.split()[:5])
             player2.set_card(poker_data.split()[5:])
+            print("Player 1: %s (%s)" % (grade[player1.grade], player1.highest))
+            print("Player 2: %s (%s)" % (grade[player2.grade], player2.highest))
 
+            if player1.grade > player2.grade:
+                player1_score += 1
+                print("Winner is Player 1")
+
+            elif player1.grade < player2.grade:
+                player2_score += 1
+                print("Winner is Player 2")
+
+            elif orders.index(player1.highest) < orders.index(player2.highest):
+                player1_score += 1
+                print("Winner is Player 1")
+
+            elif orders.index(player1.highest) > orders.index(player2.highest):
+                player2_score += 1
+                print("Winner is Player 2")
+            else:
+                print("Draw")
+        print("[Result] Player1 win %d time" % (player1_score))
 except IOError:
     print("poker_data.txt is Not Found")
