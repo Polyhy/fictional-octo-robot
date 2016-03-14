@@ -16,21 +16,24 @@ HIGH_CARD = 0
 
 
 class PokerHand():
-    card = []
+    card = [[], []]
     grade = 0
     highest = ""
     sort_card = lambda self, card: [x for x in orders for y in card if y == x]
-
-    def __init__(self, name):
-        self.name = name
 
     def get_card_numbers(self, suit):
         card_place = [i for i, x in enumerate(self.card[1]) if x == suit]
         return [self.card[0][i] for i in card_place]
 
     def set_card(self, card):
-        self.card.append([re.split("([SDHC])", x)[0] for x in card])
-        self.card.append([re.split("([SDHC])", x)[1] for x in card])
+        self.card[0] = ([re.split("([SDHC])", x)[0] for x in card])
+        self.card[1] = ([re.split("([SDHC])", x)[1] for x in card])
+        functions = [self.royal_flush, self.straight_flush, self.four_of_kind,
+                     self.full_house, self.flush, self.straight,
+                     self.pairs, self.high_card]
+        for f in functions:
+            if f():
+                break
 
     def royal_flush(self):
         for s in suits:
@@ -39,52 +42,77 @@ class PokerHand():
                 if self.sort_card(card_numbers) == ["A", "K", "Q", "J", "T"]:
                     self.highest = "A"
                     self.grade = ROYAL_FLUSH
+                    return True
 
     def straight_flush(self):
-        return
+        for s in suits:
+            if self.card[1].count(s) == 5:
+                if self.straight():
+                    self.grade = STRAIGHT_FLUSH
+                    return True
 
-    def of_kind(self):
+    def four_of_kind(self):
         for x in self.sort_card(self.card[0]):
             if self.card[0].count(x) == 4:
                 self.highest = x
                 self.grade = FOUR_OF_KIND
-                return
-            elif self.card[0].count(x) == 3:
-                self.highest = x
+                return True
+
+    def full_house(self):
+        for x in self.sort_card(self.card[0]):
+            if self.card[0].count(x) == 3:
                 for y in self.sort_card(self.card[0]):
                     if y != x and self.card[0].count(y) == 2:
+                        if orders.index(x) < orders.index(y):
+                            self.highest = x
+                        else:
+                            self.highest = y
                         self.grade = FULL_HOUSE
-                self.grade = THREE_OF_KIND
-                return
-            elif self.card[0].count(x) == 2:
-                self.highest = x
-                for y in self.sort_card(self.card[0]):
-                    if y != x and self.card[0].count(y) == 3:
-                        self.grade = FULL_HOUSE
-                        return
-                for y in self.sort_card(self.card[0]):
-                    if y != x and self.card[0].count(y) == 2:
-                        self.grade = TWO_PAIRS
-                        return
-                    self.grade = ONE_PAIRS
+                        return True
 
     def flush(self):
         for s in suits:
             if self.card[1].count(s) == 5:
-                self.highest = self.sort_card(self.card)[0]
+                self.highest = self.sort_card(self.card[0])[0]
                 self.grade = FLUSH
+                return True
 
     def straight(self):
-        ordered = self.sort_card(self.card)
+        ordered = self.sort_card(self.card[0])
         i = 5
         while i <= len(orders):
-            if ordered == orders[i-5:i]:
-                self.highest = ordered[0]
+            temp = orders[i - 5:i]
+            if ordered == temp:
+                self.highest = temp[0]
                 self.grade = STRAIGHT
+                return True
             i += 1
 
-player1 = PokerHand("player1")
-player2 = PokerHand("player2")
+            # def three_of_kind(self):
+            # for x in self.sort_card(self.card[0]):
+
+    def pairs(self):
+        for x in self.sort_card(self.card[0]):
+            if self.card[0].count(x) == 3:
+                self.highest = x
+                self.grade = THREE_OF_KIND
+                return True
+            elif self.card[0].count(x) == 2:
+                self.highest = x
+                for y in self.card[0]:
+                    if y != x and self.card[0].count(y) == 2:
+                        self.grade = TWO_PAIRS
+                        return True
+                self.grade = ONE_PAIRS
+                return True
+
+    def high_card(self):
+        self.grade = HIGH_CARD
+        self.highest = self.sort_card(self.card[0])[0]
+
+
+player1 = PokerHand()
+player2 = PokerHand()
 try:
     with open("poker_data.txt", "r") as poker_file:
         poker_datas = poker_file.read().split("\n")
