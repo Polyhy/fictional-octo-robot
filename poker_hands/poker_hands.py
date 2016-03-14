@@ -68,8 +68,20 @@ class PokerHand():
                         return
                     self.grade = ONE_PAIRS
 
+    def flush(self):
+        for s in suits:
+            if self.card[1].count(s) == 5:
+                self.highest = self.sort_card(self.card)[0]
+                self.grade = FLUSH
 
-
+    def straight(self):
+        ordered = self.sort_card(self.card)
+        i = 5
+        while i <= len(orders):
+            if ordered == orders[i-5:i]:
+                self.highest = ordered[0]
+                self.grade = STRAIGHT
+            i += 1
 
 player1 = PokerHand("player1")
 player2 = PokerHand("player2")
