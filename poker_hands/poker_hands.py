@@ -88,9 +88,6 @@ class PokerHand():
                 return True
             i += 1
 
-            # def three_of_kind(self):
-            # for x in self.sort_card(self.card[0]):
-
     def pairs(self):
         for x in self.sort_card(self.card[0]):
             if self.card[0].count(x) == 3:
