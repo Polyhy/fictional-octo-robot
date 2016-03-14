@@ -40,6 +40,10 @@ class PokerHand():
                     self.highest = 'A'
                     self.grade = ROYAL_FLUSH
 
+    def is_straight_flush(self):
+        return
+
+
 
 player1 = PokerHand('player1')
 player2 = PokerHand('player2')
