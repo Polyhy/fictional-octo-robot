@@ -1,6 +1,6 @@
 import re
 
-orders = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"]
+orders = ["A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2"]
 suits = ["S", "D", "H", "C"]
 
 ROYAL_FLUSH = 9
@@ -18,7 +18,7 @@ HIGH_CARD = 0
 class PokerHand():
     card = []
     grade = 0
-    highest = ''
+    highest = ""
     sort_card = lambda self, card: [x for x in orders for y in card if y == x]
 
     def __init__(self, name):
@@ -36,8 +36,8 @@ class PokerHand():
         for s in suits:
             if self.card[1].count(s) == 5:
                 card_numbers = self.get_card_numbers(s)
-                if self.sort_card(card_numbers) == ['T', 'J', 'Q', 'K', 'A']:
-                    self.highest = 'A'
+                if self.sort_card(card_numbers) == ["T", "J", "Q", "K", "A"]:
+                    self.highest = "A"
                     self.grade = ROYAL_FLUSH
                     return True
         return False
@@ -45,10 +45,15 @@ class PokerHand():
     def is_straight_flush(self):
         return False
 
+    def of_kind(self):
+        for x in orders:
+            return
 
 
-player1 = PokerHand('player1')
-player2 = PokerHand('player2')
+
+
+player1 = PokerHand("player1")
+player2 = PokerHand("player2")
 try:
     with open("poker_data.txt", "r") as poker_file:
         poker_datas = poker_file.read().split("\n")
