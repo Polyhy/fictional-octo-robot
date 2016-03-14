@@ -32,22 +32,23 @@ class PokerHand():
         self.card.append([re.split("([SDHC])", x)[0] for x in card])
         self.card.append([re.split("([SDHC])", x)[1] for x in card])
 
-    def is_royal_flush(self):
+    def royal_flush(self):
         for s in suits:
             if self.card[1].count(s) == 5:
                 card_numbers = self.get_card_numbers(s)
-                if self.sort_card(card_numbers) == ["T", "J", "Q", "K", "A"]:
+                if self.sort_card(card_numbers) == ["A", "K", "Q", "J", "T"]:
                     self.highest = "A"
                     self.grade = ROYAL_FLUSH
-                    return True
-        return False
 
-    def is_straight_flush(self):
-        return False
+    def straight_flush(self):
+        return
 
     def of_kind(self):
-        for x in orders:
-            return
+        for x in self.sort_card(self.card[0]):
+            if self.card[0].count(x) == 4:
+                self.highest = "A"
+                self.grade = FOUR_OF_KIND
+                return True
 
 
 
