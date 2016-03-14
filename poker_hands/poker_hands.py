@@ -39,9 +39,11 @@ class PokerHand():
                 if self.sort_card(card_numbers) == ['T', 'J', 'Q', 'K', 'A']:
                     self.highest = 'A'
                     self.grade = ROYAL_FLUSH
+                    return True
+        return False
 
     def is_straight_flush(self):
-        return
+        return False
 
 
 
