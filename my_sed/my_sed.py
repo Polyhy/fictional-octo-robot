@@ -1,4 +1,5 @@
-import sys, os
+import sys
+import os
 
 
 def my_sed(from_word, to_word, in_file):
